@@ -7,7 +7,7 @@ public class SubmarinoApp {
 	
 	public static void main( String[] args ) {
 
-		String comandoSubmarino = JOptionPane.showInputDialog("Digite o camando");
+		String comandoSubmarino = JOptionPane.showInputDialog("Digite o comando");
 		
 		MovimentacaoSubmarino movimentacaoSubmarino = new MovimentacaoSubmarino();
 		
