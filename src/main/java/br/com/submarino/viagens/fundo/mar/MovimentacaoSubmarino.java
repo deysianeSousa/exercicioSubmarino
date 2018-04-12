@@ -9,20 +9,25 @@ import br.com.submarino.comandos.MoverParaDireita;
 import br.com.submarino.comandos.MoverParaEsquerda;
 import br.com.submarino.comandos.Movimentacao;
 import br.com.submarino.comandos.Subir;
+import br.com.submarino.custom.exception.SubmarinoSobreSuperficieDoMarException;
 import br.com.submarino.servicos.Comando;
 
 public class MovimentacaoSubmarino {
 
-	public String getCoordenadaFinal(String comandoParaMovintarsubmarino) {
-
+	public String getCoordenadaFinal(String comandoParaMovintarsubmarino) throws SubmarinoSobreSuperficieDoMarException {
+		
 		Map<String, Comando> comandos = getComandos();
 
 		Submarino submarino = executaComandoParaEncontrarCoordenada(comandoParaMovintarsubmarino, comandos);
+		
+		if (submarino.getEixoZ() > 0) {
+			throw new SubmarinoSobreSuperficieDoMarException("Submarino não pode subir para a superfície!");
+		}
 
 		return submarino.getEixoX() + " " + submarino.getEixoY() + " " + submarino.getEixoZ() + " " +submarino.getDirecao();
 	}
 
-	private Submarino executaComandoParaEncontrarCoordenada(String comandoParaMovintarsubmarino, Map<String, Comando> comandos) {
+	private Submarino executaComandoParaEncontrarCoordenada(String comandoParaMovintarsubmarino, Map<String, Comando> comandos) throws SubmarinoSobreSuperficieDoMarException {
 		Submarino submarino = new Submarino();
 
 		String[] coordenadas = comandoParaMovintarsubmarino.split("");
@@ -30,6 +35,7 @@ public class MovimentacaoSubmarino {
 		for (String coordenada : coordenadas) {
 			comandos.get(coordenada).moverSubmarino(submarino);
 		}
+		
 		return submarino;
 	}
 
